@@ -70,9 +70,9 @@ export class CreateUserDto {
   @IsPhoneNumber('BR')
   readonly phoneNumber: string;
 
+  @IsOptional()
   @IsString()
   @IsUrl()
-  @IsNotEmpty()
   readonly avatarUrl: string;
 
   @IsString()
