@@ -2,17 +2,23 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { jwtConstants } from './auth/constants';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    MongooseModule.forRoot(
-      'url_mongodb', // Substituia para uma URL válida de uma aplicação MONGODB
-      { useNewUrlParser: true, useUnifiedTopology: true },
-    ),
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(jwtConstants.mongodb, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     ProductsModule,
+    AuthModule,
+    UsersModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}
