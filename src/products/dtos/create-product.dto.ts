@@ -1,23 +1,30 @@
-/* eslint-disable prettier/prettier */
-import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsString, IsUrl } from "class-validator";
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+  IsUrl,
+} from 'class-validator';
 
 export class CreateProductDto {
-    @IsNotEmpty()
-    @IsString()
-    readonly name: string;
+  @IsNotEmpty()
+  @IsString()
+  readonly name: string;
 
-    @IsString()
-    @IsUrl()
-    @IsNotEmpty()
-    photoUrl : string;
+  @IsString()
+  @IsUrl()
+  @IsNotEmpty()
+  readonly photoUrl: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    sellingPrice : number;
+  @IsNumber()
+  @IsNotEmpty()
+  @IsPositive()
+  readonly sellingPrice: number;
 
-    @IsNotEmpty()
-    @IsArray()
-    @ArrayMinSize(1)
-    colors: Array<string>
-
+  @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(1)
+  readonly colors: Array<string>;
 }
