@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { RegisterUserDto } from './dtos/register-user.dto';
+import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 
 @Controller('api/v1/users')
@@ -8,11 +17,10 @@ export class UsersController {
 
   private logger = new Logger(UsersController.name);
   @Post('/signup')
-  async UserRegister(@Body() createUserDto: CreateUserDto): Promise<void> {
-    this.logger.log(createUserDto);
+  @UsePipes(ValidationPipe)
+  async UserRegister(@Body() createUserDto: RegisterUserDto): Promise<User> {
+    return await this.userService.registerUser(createUserDto);
   }
   @Get()
-  async listUsers(): Promise<string> {
-    return 'aaa';
-  }
+  async listUsers(): Promise<void> {}
 }
