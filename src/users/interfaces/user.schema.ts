@@ -15,8 +15,6 @@ export const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      maxlength: 40,
-      match: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
     },
     email: { type: String, required: true, unique: true, maxlength: 254 },
     phoneNumber: { type: String, required: true, unique: true },

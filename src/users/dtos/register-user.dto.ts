@@ -34,7 +34,7 @@ export class RegisterUserDto {
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, {
     message: 'A senha não é válida',
   })
-  readonly password: string;
+  password: string;
 
   @IsEmail()
   @MaxLength(254)

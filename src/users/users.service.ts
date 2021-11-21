@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { RegisterUserDto } from './dtos/register-user.dto';
 import { AuthUser } from './interfaces/auth.interface';
 import { User } from './interfaces/user.interface';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,7 @@ export class UsersService {
       throw new BadRequestException(`Phone number: ${phoneNumber} exists!`);
     }
 
+    registerUserDto.password = await argon2.hash(registerUserDto.password);
     const createdUser = new this.userModel(registerUserDto);
     return await createdUser.save();
   }
