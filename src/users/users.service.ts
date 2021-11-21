@@ -30,7 +30,11 @@ export class UsersService {
       throw new BadRequestException(`Phone number: ${phoneNumber} exists!`);
     }
 
-    registerUserDto.password = await argon2.hash(registerUserDto.password);
+    registerUserDto.password = await argon2.hash(registerUserDto.password, {
+      type: argon2.argon2id,
+      hashLength: 64,
+      saltLength: 128,
+    });
     const createdUser = new this.userModel(registerUserDto);
     return await createdUser.save();
   }
