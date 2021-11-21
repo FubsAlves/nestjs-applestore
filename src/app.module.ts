@@ -2,10 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { AppController } from './app.controller';
-import { jwtConstants } from './auth/constants';
+import { jwtConstants } from './constants';
 
 @Module({
   imports: [
@@ -15,10 +13,9 @@ import { jwtConstants } from './auth/constants';
       useUnifiedTopology: true,
     }),
     ProductsModule,
-    AuthModule,
     UsersModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

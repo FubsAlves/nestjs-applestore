@@ -1,32 +1,11 @@
-import { Injectable } from '@nestjs/common';
-
-export type User = any;
+import { Injectable, Logger } from '@nestjs/common';
+import { AuthUser } from './interfaces/auth.interface';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[];
+  private logger = new Logger(UsersService.name);
 
-  constructor() {
-    this.users = [
-      {
-        userId: 1,
-        username: 'john',
-        password: 'changeme',
-      },
-      {
-        userId: 2,
-        username: 'chris',
-        password: 'secret',
-      },
-      {
-        userId: 3,
-        username: 'maria',
-        password: 'guess',
-      },
-    ];
-  }
-
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  async verifyUser(email: string): Promise<AuthUser | void> {
+    this.logger.log(email);
   }
 }

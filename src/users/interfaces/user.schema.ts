@@ -9,14 +9,17 @@ const AddressSchema = new mongoose.Schema({
   state: { type: String, required: true },
 });
 
-export const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  firstName: { type: String, required: true },
-  surname: { type: String, required: true },
-  password: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phoneNumber: { type: String, required: true, unique: true },
-  avatarUrl: { type: String, required: false },
-  identification: { type: String, required: true },
-  userAddress: { type: AddressSchema, required: true },
-});
+export const UserSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true },
+    firstName: { type: String, required: true },
+    surname: { type: String, required: true },
+    password: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phoneNumber: { type: String, required: true, unique: true },
+    avatarUrl: { type: String, required: false },
+    identification: { type: String, required: true },
+    userAddress: { type: AddressSchema, required: true },
+  },
+  { timestamps: true, collection: 'users' },
+);

@@ -7,6 +7,7 @@ import {
   IsString,
   IsUrl,
   Length,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -60,6 +61,9 @@ export class CreateUserDto {
   @IsString()
   @MinLength(6)
   @MaxLength(40)
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, {
+    message: 'A senha não é forte o suficiente',
+  })
   password: string;
 
   @IsEmail()
