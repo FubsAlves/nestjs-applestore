@@ -32,10 +32,17 @@ export class UsersService {
 
     registerUserDto.password = await argon2.hash(registerUserDto.password, {
       type: argon2.argon2id,
+      memoryCost: 131072,
       hashLength: 64,
       saltLength: 128,
     });
     const createdUser = new this.userModel(registerUserDto);
     return await createdUser.save();
+  }
+
+  async listUsers(): Promise<User[] | User> {
+
+      const userList = this.userModel.find().exec();
+      return userList;
   }
 }

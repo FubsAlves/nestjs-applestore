@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsPhoneNumber,
   IsPostalCode,
@@ -9,8 +10,20 @@ import {
   Matches,
   MaxLength,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
+export class UserAddressDto {
+  @IsString()
+  @IsPostalCode('BR')
+  readonly postalCode: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(100)
+  readonly street: string;
+}
 export class RegisterUserDto {
   @IsString()
   @MinLength(6)
@@ -50,19 +63,10 @@ export class RegisterUserDto {
   @MaxLength(14)
   readonly identification: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
-  readonly street: string;
-
   @MaxLength(50)
   @IsString()
   @IsOptional()
   readonly complement: string;
-
-  @IsString()
-  @IsPostalCode('BR')
-  readonly postalCode: string;
 
   @IsString()
   @IsNotEmpty()
@@ -77,4 +81,9 @@ export class RegisterUserDto {
   @IsString()
   @Length(2, 2)
   readonly state: string;
+
+  @ValidateNested()
+  @IsObject()
+  @Type(() => UserAddressDto)
+  public userAddress!: UserAddressDto;
 }

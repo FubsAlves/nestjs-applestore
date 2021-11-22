@@ -22,5 +22,7 @@ export class UsersController {
     return await this.userService.registerUser(createUserDto);
   }
   @Get()
-  async listUsers(): Promise<void> {}
+  async listUsers(): Promise<User[] | User> {
+    return await this.userService.listUsers();
+  }
 }
