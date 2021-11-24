@@ -1,12 +1,11 @@
 import {
-  IsEmail,
   IsNotEmpty,
   IsObject,
   IsOptional,
   IsPhoneNumber,
   IsPostalCode,
   IsString,
-  Matches,
+  Length,
   MaxLength,
   MinLength,
   ValidateNested,
@@ -19,6 +18,7 @@ export class UserAddressDto {
   readonly postalCode: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(100)
   readonly street: string;
 
@@ -28,59 +28,43 @@ export class UserAddressDto {
   readonly complement: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(50)
   readonly district: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(70)
   readonly city: string;
 
   @IsString()
-  @MinLength(2)
-  @MaxLength(2)
+  @Length(2, 2)
   readonly state: string;
 }
-export class RegisterUserDto {
+export class UpdateUserDto {
+  @IsOptional()
   @IsString()
-  @MinLength(6)
-  @MaxLength(32)
-  readonly username: string;
+  @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(50)
+  readonly firstName?: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(50)
-  readonly firstName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(3)
-  @MaxLength(50)
-  readonly surname: string;
-
-  @IsString()
-  @MaxLength(40)
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, {
-    message: 'A senha não é válida',
-  })
-  password: string;
-
-  @IsEmail()
-  @MaxLength(254)
-  readonly email: string;
+  @IsOptional()
+  readonly surname?: string;
 
   @IsString()
   @IsPhoneNumber('BR')
   @IsNotEmpty()
-  readonly phoneNumber: string;
-
-  @IsString()
-  @MinLength(11)
-  @MaxLength(14)
-  readonly identification: string;
+  @IsOptional()
+  readonly phoneNumber?: string;
 
   @ValidateNested()
-  @IsNotEmpty()
+  @IsObject()
+  @IsOptional()
   @Type(() => UserAddressDto)
-  public userAddress: UserAddressDto;
+  public userAddress?: UserAddressDto;
 }

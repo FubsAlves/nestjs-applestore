@@ -1,17 +1,23 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RegisterUserDto } from './dtos/register-user.dto';
 import { AuthUser } from './interfaces/auth.interface';
 import { User } from './interfaces/user.interface';
 import * as argon2 from 'argon2';
+import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
   private logger = new Logger(UsersService.name);
 
-  async registerUser(registerUserDto: RegisterUserDto): Promise<any> {
+  async registerUser(registerUserDto: RegisterUserDto): Promise<User> {
     const { username, email, phoneNumber } = registerUserDto;
     const usernameExists = await this.userModel.findOne({ username }).exec();
     if (usernameExists) {
@@ -40,9 +46,30 @@ export class UsersService {
     return await createdUser.save();
   }
 
-  async listUsers(): Promise<User[] | User> {
+  async listUsers(): Promise<User[]> {
+    const userList = this.userModel.find().exec();
+    return userList;
+  }
+  async findUser(_id: string): Promise<User> {
+    const userFound = this.userModel
+      .findById({ _id })
+      .select('-password -createdAt -updatedAt -__v')
+      .exec();
+    if (!userFound) throw new NotFoundException(`Invalid user!`);
+    return userFound;
+  }
 
-      const userList = this.userModel.find().exec();
-      return userList;
+  async updateUser(_id: string, updateUserDto: UpdateUserDto): Promise<void> {
+    const UserExists = await this.userModel
+      .findById({ _id })
+      .select('_id')
+      .exec();
+    if (!UserExists) throw new NotFoundException(`User not found!`);
+    UserExists.update({ $set: updateUserDto });
+  }
+  async deleteUser(_id: string): Promise<void> {
+    const userExists = await this.userModel.findByIdAndDelete({ _id }).exec();
+    this.logger.log('achou', userExists);
+    if (!userExists) throw new NotFoundException(`User not found!`);
   }
 }

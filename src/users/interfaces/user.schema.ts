@@ -1,5 +1,14 @@
 import * as mongoose from 'mongoose';
 
+const UserAddressSchema = new mongoose.Schema({
+  street: { type: String, required: true, maxlength: 100 },
+  complement: { type: String, required: false, maxlength: 50 },
+  postalCode: { type: String, Required: true },
+  district: { type: String, Required: true, maxlength: 50 },
+  city: { type: String, Required: true, maxlength: 70 },
+  state: { type: String, required: true, minlength: 2, maxlength: 2 },
+});
+
 export const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -29,12 +38,7 @@ export const UserSchema = new mongoose.Schema(
       minlength: 11,
       maxlength: 14,
     },
-    street: { type: String, required: true, maxlength: 100 },
-    complement: { type: String, required: false, maxlength: 50 },
-    postalCode: { type: String, Required: true },
-    district: { type: String, Required: true, maxlength: 50 },
-    city: { type: String, Required: true, maxlength: 70 },
-    state: { type: String, required: true, minlength: 2, maxlength: 2 },
+    userAddress: { type: UserAddressSchema, required: true },
   },
   { timestamps: true, collection: 'users' },
 );
