@@ -7,10 +7,10 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RegisterUserDto } from './dtos/register-user.dto';
-import { AuthUser } from './interfaces/auth.interface';
 import { User } from './interfaces/user.interface';
 import * as argon2 from 'argon2';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { AuthUserDto } from './dtos/auth-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -44,6 +44,9 @@ export class UsersService {
     });
     const createdUser = new this.userModel(registerUserDto);
     return await createdUser.save();
+  }
+  async authenticateUser(authUserDto: AuthUserDto): Promise<any> {
+    this.logger.log(authUserDto);
   }
 
   async listUsers(): Promise<User[]> {

@@ -1,7 +1,6 @@
 import {
   IsEmail,
   IsNotEmpty,
-  IsObject,
   IsOptional,
   IsPhoneNumber,
   IsPostalCode,

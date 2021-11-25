@@ -6,12 +6,12 @@ import {
   ValidationPipe,
   Get,
   Query,
-  Put,
   Param,
   Logger,
   Delete,
   Res,
   HttpStatus,
+  Patch,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ValidacaoParametrosPipe } from 'src/common/pipes/validacao-parametros.pipe';
@@ -47,7 +47,7 @@ export class ProductsController {
     return products;
   }
 
-  @Put('/:_id')
+  @Patch('/:_id')
   @UsePipes(ValidationPipe)
   async updateProduct(
     @Body() updateProductDto: UpdateProductDto,

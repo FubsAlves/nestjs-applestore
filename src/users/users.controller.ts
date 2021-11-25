@@ -5,13 +5,11 @@ import {
   Get,
   Logger,
   Param,
-  Post,
-  Put,
+  Patch,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ValidacaoParametrosPipe } from 'src/common/pipes/validacao-parametros.pipe';
-import { RegisterUserDto } from './dtos/register-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
@@ -21,12 +19,6 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   private logger = new Logger(UsersController.name);
-  @Post('/signup')
-  @UsePipes(ValidationPipe)
-  async UserRegister(@Body() registerUserDto: RegisterUserDto): Promise<any> {
-    this.logger.log(registerUserDto);
-    return await this.userService.registerUser(registerUserDto);
-  }
   @Get()
   async listUsers(): Promise<User[] | string> {
     const userList: User[] = await this.userService.listUsers();
@@ -40,7 +32,7 @@ export class UsersController {
     return await this.userService.findUser(_id);
   }
 
-  @Put('/:_id')
+  @Patch('/:_id')
   @UsePipes(ValidationPipe)
   async updateUser(
     @Body() updateUserDto: UpdateUserDto,

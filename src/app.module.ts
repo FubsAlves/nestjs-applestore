@@ -1,3 +1,4 @@
+import { AuthController } from './users/auth.controller';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsModule } from './products/products.module';
@@ -15,7 +16,7 @@ import { jwtConstants } from './constants';
     ProductsModule,
     UsersModule,
   ],
-  controllers: [],
+  controllers: [AuthController],
   providers: [],
 })
 export class AppModule {}
