@@ -10,5 +10,5 @@ export class AuthUserDto {
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
     message: 'A senha inserida está incorreta.',
   })
-  senha: string;
+  password: string;
 }

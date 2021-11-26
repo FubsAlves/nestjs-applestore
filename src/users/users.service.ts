@@ -53,13 +53,21 @@ export class UsersService {
     const userList = this.userModel.find().exec();
     return userList;
   }
-  async findUser(_id: string): Promise<User> {
+  async findUserById(_id: string): Promise<User> {
     const userFound = this.userModel
       .findById({ _id })
-      .select('-password -createdAt -updatedAt -__v')
+      .select('-password -createdAt -updatedAt')
       .exec();
     if (!userFound) throw new NotFoundException(`Invalid user!`);
     return userFound;
+  }
+  async findUserByEmail(email: string): Promise<User> {
+    const userExists = await this.userModel
+      .findOne({ email })
+      .select('_id email password')
+      .exec();
+    if (!userExists) throw new NotFoundException(`Invalid User`);
+    return userExists;
   }
 
   async updateUser(_id: string, updateUserDto: UpdateUserDto): Promise<void> {

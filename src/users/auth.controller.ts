@@ -7,11 +7,15 @@ import {
 } from '@nestjs/common';
 import { AuthUserDto } from '../users/dtos/auth-user.dto';
 import { RegisterUserDto } from '../users/dtos/register-user.dto';
+import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 
-@Controller('api/v1/ap')
+@Controller('api/v1')
 export class AuthController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post('/signup')
   @UsePipes(ValidationPipe)
@@ -21,6 +25,6 @@ export class AuthController {
   @Post('/signin')
   @UsePipes(ValidationPipe)
   async Signin(@Body() authUserDto: AuthUserDto): Promise<any> {
-    return this.usersService.authenticateUser(authUserDto);
+    return this.authService.authenticateUser(authUserDto);
   }
 }

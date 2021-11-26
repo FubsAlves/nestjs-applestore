@@ -29,7 +29,7 @@ export class UsersController {
   async listUser(
     @Param('_id', ValidacaoParametrosPipe) _id: string,
   ): Promise<User> {
-    return await this.userService.findUser(_id);
+    return await this.userService.findUserById(_id);
   }
 
   @Patch('/:_id')
