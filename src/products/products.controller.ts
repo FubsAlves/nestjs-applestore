@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ValidacaoParametrosPipe } from 'src/common/pipes/validacao-parametros.pipe';
+import { Public } from 'src/users/public.auth.decorator';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { Product } from './interfaces/product.interface';
@@ -34,10 +35,12 @@ export class ProductsController {
     return await this.productsService.createProduct(createproductDto);
   }
 
+  @Public()
   @Get()
   async listProducts(@Query() query: ProductQuery): Promise<Product[]> {
     return await this.productsService.listAllProducts(query);
   }
+  @Public()
   @Get('/:_id')
   async listProductById(
     @Param('_id', ValidacaoParametrosPipe) _id: string,
