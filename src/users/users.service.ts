@@ -10,7 +10,6 @@ import { RegisterUserDto } from './dtos/register-user.dto';
 import { User } from './interfaces/user.interface';
 import * as argon2 from 'argon2';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { AuthUserDto } from './dtos/auth-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -64,17 +63,15 @@ export class UsersService {
       .select('_id username password')
       .exec();
     if (!userExists) throw new NotFoundException(`Invalid User`);
-    this.logger.log(userExists);
     return userExists;
   }
 
-  async findUserByEmail(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<any> {
     const userExists = await this.userModel
       .findOne({ email })
-      .select('_id email password')
+      .select('_id email username firstName surname password')
       .exec();
     if (!userExists) throw new NotFoundException(`Invalid User`);
-    this.logger.log(userExists);
     return userExists;
   }
 

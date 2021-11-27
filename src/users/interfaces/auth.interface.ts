@@ -1,6 +1,10 @@
 import { Document } from 'mongoose';
 
 export interface AuthUser extends Document {
-  email: string;
-  password: string;
+  _id?: string;
+  email?: string;
+  username?: string;
+  password?: string;
+  firstName?: string;
+  surname?: string;
 }
