@@ -4,14 +4,11 @@ import {
   Body,
   UsePipes,
   ValidationPipe,
-  UseGuards,
   Logger,
   Request,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { RegisterUserDto } from '../users/dtos/register-user.dto';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { UsersService } from './users.service';
 
 @Controller('api/v1')
@@ -29,7 +26,6 @@ export class AuthController {
     const user = await this.usersService.registerUser(registerUserDto);
     return this.authService.createToken(user);
   }
-  @UseGuards(LocalAuthGuard)
   @Post('/signin')
   //@UsePipes(ValidationPipe)
   async Signin(@Request() request): Promise<any> {

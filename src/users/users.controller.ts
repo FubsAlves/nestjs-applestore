@@ -6,13 +6,11 @@ import {
   Logger,
   Param,
   Patch,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ValidacaoParametrosPipe } from 'src/common/pipes/validacao-parametros.pipe';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 
@@ -27,7 +25,6 @@ export class UsersController {
     return userList;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/:_id')
   async listUser(
     @Param('_id', ValidacaoParametrosPipe) _id: string,
