@@ -1,14 +1,31 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsModule } from './products/products.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import { jwtConstants } from './constants';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(jwtConstants.mongodb, {
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB'),
+      }),
+      inject: [ConfigService],
+    }),
+    ProductsModule,
+    UsersModule,
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+
+/* @Module({
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRootAsync(jwtConstants.mongodb, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
@@ -18,4 +35,4 @@ import { jwtConstants } from './constants';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {} */

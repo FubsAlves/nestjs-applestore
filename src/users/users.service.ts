@@ -45,9 +45,6 @@ export class UsersService {
     const createdUser = new this.userModel(registerUserDto);
     return await createdUser.save();
   }
-  async authenticateUser(authUserDto: AuthUserDto): Promise<any> {
-    this.logger.log(authUserDto);
-  }
 
   async listUsers(): Promise<User[]> {
     const userList = this.userModel.find().exec();
@@ -61,12 +58,23 @@ export class UsersService {
     if (!userFound) throw new NotFoundException(`Invalid user!`);
     return userFound;
   }
+  async findUserByUsername(username: string): Promise<User> {
+    const userExists = await this.userModel
+      .findOne({ username })
+      .select('_id username password')
+      .exec();
+    if (!userExists) throw new NotFoundException(`Invalid User`);
+    this.logger.log(userExists);
+    return userExists;
+  }
+
   async findUserByEmail(email: string): Promise<User> {
     const userExists = await this.userModel
       .findOne({ email })
       .select('_id email password')
       .exec();
     if (!userExists) throw new NotFoundException(`Invalid User`);
+    this.logger.log(userExists);
     return userExists;
   }
 
