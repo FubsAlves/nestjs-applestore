@@ -38,6 +38,10 @@ export const UserSchema = new mongoose.Schema(
       minlength: 11,
       maxlength: 14,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     userAddress: { type: UserAddressSchema, required: true },
   },
   { timestamps: true, collection: 'users' },

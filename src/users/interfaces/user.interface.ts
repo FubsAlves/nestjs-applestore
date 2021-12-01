@@ -1,14 +1,16 @@
-import { Document } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 export interface User extends Document {
+  id: ObjectId;
   username: string;
   firstName: string;
   surname: string;
-  password: string;
+  password?: string;
   email: string;
   phoneNumber: string;
   avatarUrl: string;
   identification: string;
+  isAdmin?: boolean;
   userAddress: Address;
 }
 
