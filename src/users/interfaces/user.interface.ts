@@ -10,7 +10,7 @@ export interface User extends Document {
   phoneNumber: string;
   avatarUrl: string;
   identification: string;
-  isAdmin?: boolean;
+  isAdmin?: string;
   userAddress: Address;
 }
 
