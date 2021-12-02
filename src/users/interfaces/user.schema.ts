@@ -38,9 +38,9 @@ export const UserSchema = new mongoose.Schema(
       minlength: 11,
       maxlength: 14,
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
+    Role: {
+      type: String,
+      default: 'user',
     },
     userAddress: { type: UserAddressSchema, required: true },
   },
